@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-id="th-modified">Made For Bain Capital — Site Progress Tracker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --charcoal:#2D2D2D;
+  --offwhite:#E7E7DD;
+  --blue:#3F65D6;
+  --lilac:#B5C1EB;
+  --purple:#A490DB;
+  --sage:#D0D2A0;
+  --sky:#A0CBF0;
+  --grey:#A3ACA5;
+  --green:#299F3D;
+  --gold:#BEA32E;
+  --orange:#FFAE2E;
+}
+body{background:var(--offwhite);color:var(--charcoal);font-family:'DM Sans','Inter',sans-serif;font-size:14px;line-height:1.6;min-height:100vh;}
+
+.tracker{display:flex;flex-direction:column;min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--charcoal);padding:0;}
+.header-inner{padding:40px 48px 0;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;}
+.eyebrow{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-bottom:14px;font-family:'DM Sans',sans-serif;font-weight:400;}
+.header-title{font-family:'Marr Sans','Inter','DM Sans',sans-serif;font-weight:900;font-size:56px;line-height:1.0;color:var(--offwhite);letter-spacing:-0.02em;}
+.header-title .accent{color:var(--blue);}
+.header-meta{display:flex;align-items:center;gap:0;margin-top:16px;padding-bottom:32px;flex-wrap:wrap;}
+.header-meta-item{font-size:15px;color:rgba(231,231,221,0.55);font-family:'DM Sans',sans-serif;font-weight:400;padding-right:18px;margin-right:18px;border-right:1px solid rgba(163,172,165,0.2);}
+.header-meta-item:last-child{border-right:none;}
+.hamburger{background:rgba(231,231,221,0.06);border:1px solid rgba(231,231,221,0.1);border-radius:4px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:5px;align-items:center;flex-shrink:0;margin-top:6px;}
+.hamburger span{display:block;width:18px;height:1.5px;background:rgba(231,231,221,0.5);}
+
+/* TABS */
+.tabs{display:flex;padding:0 48px;border-top:1px solid rgba(231,231,221,0.07);}
+.tab{background:none;border:none;border-bottom:2px solid transparent;padding:14px 18px 14px 0;margin-right:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(231,231,221,0.3);cursor:pointer;transition:color 0.15s,border-color 0.15s;white-space:nowrap;}
+.tab.active{color:var(--offwhite);border-bottom-color:var(--blue);}
+.tab:hover:not(.active){color:rgba(231,231,221,0.65);}
+
+/* CONTENT */
+.content{padding:40px 48px;flex:1;}
+
+/* WEEK SELECTOR */
+.week-bar{background:var(--charcoal);border-radius:4px;padding:18px 22px;margin-bottom:16px;}
+.week-bar-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-bottom:12px;font-weight:400;}
+.week-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{display:inline-block;background:rgba(231,231,221,0.06);border:1px solid rgba(231,231,221,0.1);color:rgba(231,231,221,0.55);font-size:12px;font-weight:500;padding:5px 12px;border-radius:3px;cursor:pointer;transition:all 0.1s;font-family:'DM Sans',sans-serif;}
+.chip.active{background:var(--blue);border-color:var(--blue);color:var(--offwhite);}
+.chip:hover:not(.active){background:rgba(231,231,221,0.1);color:var(--offwhite);}
+.chip.add{color:var(--blue);border-color:rgba(63,101,214,0.3);background:rgba(63,101,214,0.07);}
+
+/* CONTENT BLOCKS */
+.block{border:1px solid var(--grey);border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.block-head{padding:12px 20px;border-bottom:1px solid rgba(163,172,165,0.3);display:flex;align-items:center;justify-content:space-between;}
+.block-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);font-weight:700;font-family:'DM Sans',sans-serif;}
+.block-body{padding:18px 20px;background:var(--offwhite);}
+
+/* NUMBERED LIST */
+.num-list{list-style:none;padding:0;counter-reset:nl;}
+.num-list li{counter-increment:nl;display:flex;gap:14px;padding:8px 0;border-bottom:1px solid rgba(163,172,165,0.2);font-size:13px;color:var(--charcoal);line-height:1.55;font-family:'DM Sans',sans-serif;font-weight:400;}
+.num-list li:last-child{border-bottom:none;}
+.num-list li::before{content:counter(nl);font-size:10px;font-weight:700;background:var(--charcoal);color:var(--offwhite);width:18px;height:18px;border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-family:'DM Sans',sans-serif;}
+
+/* OUTSTANDING */
+.oi{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(163,172,165,0.2);font-family:'DM Sans',sans-serif;}
+.oi:last-child{border-bottom:none;}
+.oi input[type=checkbox]{margin-top:3px;accent-color:var(--green);width:13px;height:13px;cursor:pointer;flex-shrink:0;}
+.oi label{font-size:13px;color:var(--charcoal);cursor:pointer;line-height:1.55;}
+.oi.done label{text-decoration:line-through;color:var(--grey);}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat{border:1px solid var(--grey);border-radius:4px;padding:18px 22px;background:var(--offwhite);}
+.stat.dark{background:var(--charcoal);border-color:var(--charcoal);}
+.stat-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-bottom:8px;font-weight:700;font-family:'DM Sans',sans-serif;}
+.stat.dark .stat-label{color:var(--lilac);}
+.stat-value{font-size:28px;font-weight:900;color:var(--charcoal);letter-spacing:-0.02em;font-family:'DM Sans',sans-serif;line-height:1;}
+.stat.dark .stat-value{color:var(--offwhite);}
+.stat-sub{font-size:11px;color:var(--grey);margin-top:6px;font-family:'DM Sans',sans-serif;}
+.stat.dark .stat-sub{color:rgba(231,231,221,0.4);}
+
+/* VARIATIONS */
+.var-block{border:1px solid var(--grey);border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.var-block-head{padding:13px 20px;background:var(--offwhite);border-bottom:1px solid rgba(163,172,165,0.3);display:flex;justify-content:space-between;align-items:center;}
+.var-block-title{font-size:12px;font-weight:700;color:var(--charcoal);font-family:'DM Sans',sans-serif;letter-spacing:0.02em;}
+.var-block-total{font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;}
+.var-sublabel{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey);font-weight:700;padding:8px 20px 6px;background:rgba(163,172,165,0.08);border-bottom:1px solid rgba(163,172,165,0.15);font-family:'DM Sans',sans-serif;}
+.var-row{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;border-bottom:1px solid rgba(163,172,165,0.12);background:var(--offwhite);}
+.var-row:last-child{border-bottom:none;}
+.var-desc{font-size:13px;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
+.var-meta{font-size:11px;color:var(--grey);margin-top:2px;}
+.var-amt-green{font-size:14px;font-weight:700;color:var(--green);font-family:'DM Sans',sans-serif;}
+.var-amt-gold{font-size:14px;font-weight:700;color:var(--gold);font-family:'DM Sans',sans-serif;}
+.var-actions{display:flex;gap:6px;margin-left:12px;}
+.var-footer{padding:12px 20px;border-top:1px solid rgba(163,172,165,0.2);background:var(--offwhite);}
+
+/* BUTTONS */
+.btn{font-family:'DM Sans',sans-serif;font-weight:700;border:none;cursor:pointer;border-radius:3px;letter-spacing:0.02em;}
+.btn-sm{font-size:11px;padding:4px 10px;}
+.btn-md{font-size:12px;padding:8px 16px;}
+.btn-blue{background:var(--blue);color:var(--offwhite);}
+.btn-ghost{background:var(--offwhite);color:var(--charcoal);border:1px solid var(--grey);}
+.btn-dim{background:rgba(163,172,165,0.15);color:var(--grey);border:1px solid rgba(163,172,165,0.35);}
+.btn-purple{background:var(--purple);color:var(--offwhite);}
+
+/* INLINE FORMS */
+.inline-form{display:none;padding:14px 20px;border-top:1px solid rgba(163,172,165,0.2);background:rgba(163,172,165,0.06);}
+.inline-form.open{display:block;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fg{margin-bottom:10px;}
+.fg label{display:block;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey);margin-bottom:5px;font-weight:700;font-family:'DM Sans',sans-serif;}
+.fg input,.fg textarea,.fg select{width:100%;padding:8px 11px;border:1px solid var(--grey);border-radius:3px;font-size:13px;color:var(--charcoal);background:var(--offwhite);font-family:'DM Sans',sans-serif;}
+.fg textarea{min-height:68px;resize:vertical;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--blue);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(45,45,45,0.55);display:flex;align-items:flex-start;justify-content:center;z-index:999;padding:32px 20px;}
+.modal{background:var(--offwhite);border-radius:4px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;border:1px solid var(--grey);}
+.modal-head{background:var(--charcoal);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;}
+.modal-head h3{color:var(--offwhite);font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:0.02em;}
+.modal-close{background:none;border:none;color:rgba(231,231,221,0.4);font-size:22px;cursor:pointer;line-height:1;}
+.modal-body{padding:24px;}
+.modal-foot{padding:14px 24px;border-top:1px solid rgba(163,172,165,0.3);display:flex;gap:8px;justify-content:flex-end;}
+
+/* EMPTY */
+.empty{padding:20px;text-align:center;color:var(--grey);font-size:13px;font-family:'DM Sans',sans-serif;}
+
+/* GANTT */
+.gantt-wrap{overflow-x:auto;padding:4px 0;}
+.gantt-tbl{border-collapse:collapse;min-width:100%;}
+.gantt-tbl td,.gantt-tbl th{padding:0;vertical-align:middle;}
+.g-label{font-size:12px;font-weight:700;color:var(--charcoal);padding:0 16px 0 0;white-space:nowrap;min-width:190px;font-family:'DM Sans',sans-serif;}
+.g-sub{font-size:10px;color:var(--grey);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-top:2px;}
+.g-month{font-size:10px;font-weight:700;color:var(--charcoal);text-align:left;letter-spacing:0.05em;text-transform:uppercase;padding:7px 0 5px 5px;font-family:'DM Sans',sans-serif;border-bottom:2px solid var(--charcoal);}
+.g-month.new-month{border-left:2px solid var(--charcoal);}
+.g-wk{font-size:9px;color:var(--grey);text-align:center;padding:5px 2px 4px;min-width:28px;font-weight:500;font-family:'DM Sans',sans-serif;border-bottom:1px solid rgba(163,172,165,0.4);border-right:1px solid rgba(163,172,165,0.15);white-space:nowrap;}
+.g-wk.new-month{border-left:2px solid rgba(163,172,165,0.4);}
+.g-cell{height:32px;padding:2px 1px;border-right:1px solid rgba(163,172,165,0.1);}
+.g-cell.new-month{border-left:2px solid rgba(163,172,165,0.3);}
+.g-cell.xmas{background:repeating-linear-gradient(135deg,rgba(163,172,165,0.13) 0px,rgba(163,172,165,0.13) 3px,transparent 3px,transparent 7px);}
+.g-wk.xmas{color:var(--grey);font-style:italic;}
+.g-bar{height:22px;border-radius:3px;}
+.g-row td{border-bottom:1px solid rgba(163,172,165,0.12);}
+
+/* DATE CARDS */
+.date-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.date-card{border:1px solid var(--grey);border-radius:4px;padding:16px 20px;background:var(--offwhite);}
+.date-card.green-accent{border-left:3px solid var(--green);}
+.dc-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;font-weight:700;font-family:'DM Sans',sans-serif;}
+.dc-value{font-size:18px;font-weight:900;color:var(--charcoal);letter-spacing:-0.01em;font-family:'DM Sans',sans-serif;}
+.date-card.green-accent .dc-value{color:var(--green);}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--charcoal);font-weight:500;font-family:'DM Sans',sans-serif;}
+.l-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+.l-diamond{width:10px;height:10px;background:var(--charcoal);transform:rotate(45deg);border-radius:1px;flex-shrink:0;}
+
+/* DOCUMENTS */
+.doc-accordion{border:1px solid var(--grey);border-radius:4px;margin-bottom:8px;overflow:hidden;}
+.doc-acc-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--offwhite);cursor:pointer;user-select:none;transition:background 0.1s;}
+.doc-acc-head:hover{background:rgba(163,172,165,0.12);}
+.doc-acc-left{display:flex;align-items:center;gap:14px;}
+.doc-icon{width:32px;height:32px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.doc-acc-title{font-size:14px;font-weight:700;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
+.doc-acc-count{font-size:11px;color:var(--grey);margin-top:2px;font-family:'DM Sans',sans-serif;}
+.doc-chevron{width:22px;height:22px;border:1px solid rgba(163,172,165,0.5);border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--grey);font-size:12px;transition:transform 0.2s;flex-shrink:0;}
+.doc-chevron.open{transform:rotate(180deg);}
+.doc-body{display:none;border-top:1px solid rgba(163,172,165,0.3);}
+.doc-body.open{display:block;}
+.doc-row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(163,172,165,0.1);background:var(--offwhite);}
+.doc-row:last-child{border-bottom:none;}
+.doc-name{font-size:13px;font-weight:600;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
+.doc-meta{font-size:11px;color:var(--grey);margin-top:2px;font-family:'DM Sans',sans-serif;}
+.doc-right{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px;}
+.status-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:2px;letter-spacing:0.05em;text-transform:uppercase;font-family:'DM Sans',sans-serif;}
+.s-draft{background:rgba(190,163,46,0.15);color:#7a6215;}
+.s-final{background:rgba(41,159,61,0.12);color:#1a5c26;}
+.s-issued{background:rgba(63,101,214,0.12);color:#2040a0;}
+.s-approved{background:rgba(41,159,61,0.12);color:#1a5c26;}
+.s-pending{background:rgba(163,172,165,0.2);color:var(--grey);}
+.doc-link{font-size:12px;color:var(--blue);text-decoration:none;font-weight:600;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0;}
+.doc-add{padding:12px 20px;border-top:1px solid rgba(163,172,165,0.15);background:var(--offwhite);}
+
+/* TENDER */
+.tender-sub-head{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(163,172,165,0.07);border-bottom:1px solid rgba(163,172,165,0.15);}
+.tsh-title{font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
+.tsh-count{font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;}
+.c-row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(163,172,165,0.1);background:var(--offwhite);}
+.c-row:last-child{border-bottom:none;}
+.c-name{font-size:13px;font-weight:700;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
+.c-notes{font-size:11px;color:var(--grey);margin-top:2px;font-family:'DM Sans',sans-serif;}
+.c-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:2px;letter-spacing:0.04em;text-transform:uppercase;font-family:'DM Sans',sans-serif;}
+.b-long{background:rgba(160,203,240,0.2);color:#0a3d6e;}
+.b-short{background:rgba(164,144,219,0.2);color:#2e1e7a;}
+.b-rec{background:rgba(41,159,61,0.12);color:#1a5c26;}
+.r-row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(163,172,165,0.1);background:var(--offwhite);}
+.r-row:last-child{border-bottom:none;}
+.r-name{font-size:13px;font-weight:700;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
+.r-meta{font-size:11px;color:var(--grey);margin-top:2px;font-family:'DM Sans',sans-serif;}
+.r-amt{font-size:15px;font-weight:900;color:var(--charcoal);font-family:'DM Sans',sans-serif;letter-spacing:-0.01em;}
+
+/* SIDE PANEL */
+.panel{background:var(--charcoal);position:fixed;top:0;left:0;width:240px;height:100%;z-index:500;padding:28px 22px;transform:translateX(-100%);transition:transform 0.2s;border-right:1px solid rgba(231,231,221,0.06);}
+.panel.open{transform:translateX(0);}
+.panel-bg{display:none;position:fixed;inset:0;z-index:499;}
+.panel-bg.open{display:block;}
+.panel-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-bottom:14px;font-weight:700;font-family:'DM Sans',sans-serif;}
+.panel-item{padding:10px 12px;border-radius:3px;cursor:pointer;color:rgba(231,231,221,0.6);font-size:13px;font-weight:500;margin-bottom:2px;font-family:'DM Sans',sans-serif;transition:all 0.1s;}
+.panel-item:hover{background:rgba(231,231,221,0.07);color:var(--offwhite);}
+.panel-hr{border:none;border-top:1px solid rgba(231,231,221,0.07);margin:12px 0;}
+
+/* FOOTER */
+.footer{border-top:1px solid rgba(163,172,165,0.4);padding:12px 48px;display:flex;justify-content:space-between;align-items:center;background:var(--offwhite);}
+.footer-left{font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;font-weight:400;}
+.footer-right{font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;font-weight:400;}
+
+@media(max-width:640px){
+  .header-inner{padding:28px 24px 0;}
+  .tabs{padding:0 24px;}
+  .content{padding:24px 24px;}
+  .header-title{font-size:36px;}
+  .stat-row,.date-row{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .footer{padding:12px 24px;}
+}
+</style>
+<meta property="og:title" content="Made For Bain Capital — Site Progress Tracker" data-id="th-modified" ><meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified" ><meta property="og:image:width" content="1501" data-id="th-modified" ><meta property="og:image:height" content="1501" data-id="th-modified" ><meta property="og:image:type" content="image/png" data-id="th-modified" ><meta property="og:url" content="https://madeforbaincapital.tiiny.site/" data-id="th-modified" ><meta property="og:type" content="website" data-id="th-modified" ><script defer data-domain="madeforbaincapital.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
+<body>
+
+<div class="tracker" id="app">
+
+<div class="panel" id="sidePanel">
+  <p class="panel-label">Project Menu</p>
+  <div class="panel-item" onclick="closePanel();switchTab('team')">Made For Team</div>
+  <div class="panel-item" onclick="openAddWeek()">+ Add Week</div>
+  <div class="panel-item" onclick="closePanel();switchTab('progress')">Progress</div>
+  <hr class="panel-hr">
+  <div class="panel-item" onclick="closePanel();switchTab('programme')">Programme</div>
+  <div class="panel-item" onclick="closePanel();switchTab('budget')">Budget</div>
+  <div class="panel-item" onclick="closePanel();switchTab('documents')">Key Documents</div>
+  <div class="panel-item" onclick="closePanel();switchTab('tender')">Tender</div>
+</div>
+<div class="panel-bg" id="panelBg" onclick="closePanel()"></div>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div>
+        <p class="eyebrow">Made For. — Site Progress Tracker</p>
+        <h1 class="header-title">Bain Capital,<br><span class="accent">Sydney.</span></h1>
+        <div class="header-meta">
+          <span class="header-meta-item">Suite 28.01 &amp; 28.02, Aurora Place</span>
+          <span class="header-meta-item">88 Phillip Street, Sydney 2000</span>
+        </div>
+      </div>
+      <button class="hamburger" onclick="openPanel()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="tab-team" onclick="switchTab('team')">Made For Team</button>
+    <button class="tab" id="tab-progress" onclick="switchTab('progress')">Progress</button>
+    <button class="tab" id="tab-programme" onclick="switchTab('programme')">Programme</button>
+    <button class="tab" id="tab-budget" onclick="switchTab('budget')">Budget</button>
+    <button class="tab" id="tab-documents" onclick="switchTab('documents')">Key Documents</button>
+    <button class="tab" id="tab-tender" onclick="switchTab('tender')">Tender</button>
+  </div>
+</div>
+
+<div class="content" id="mainContent"></div>
+
+<div class="footer">
+  <span class="footer-left">Made For Bain Capital.</span>
+  <span class="footer-right">Site Progress Tracker.</span>
+</div>
+
+</div>
+<div id="modalContainer"></div>
+
+<script>
+const S={
+  activeTab:'team',activeWeek:0,
+  weeks:[
+    {// W1 — 03 Aug
+      date:'03 Aug 2025',
+      thisWeek:['Mobilisation and onboarding of Made For team.','High-level strategy session with Kat McMahon and client stakeholders.','Site measure and review of building fitout guide for Suite 28.02.','Initial test fit review and planning principles workshop.'],
+      nextWeek:['Commence concept design phase.','First weekly design workshop with Bain Capital team.','Define design drivers and explore materiality direction.','Begin 3D test fit development.'],
+      outstanding:[
+        {text:'Confirm Bain Capital key stakeholder contacts and decision makers.',done:false},
+        {text:'Obtain existing as-built drawings for Suite 28.01 from landlord.',done:false},
+        {text:'Confirm headcount targets for expansion space.',done:false},
+        {text:'Receive building fitout guide from Aurora Place management.',done:false}
+      ],
+      programmeNote:'Programme tracking on schedule. Target FDOB February 2027 remains achievable.'
+    },
+    {// W2 — 10 Aug
+      date:'10 Aug 2025',
+      thisWeek:['Concept design workshop with Bain Capital stakeholders.','Design drivers and materiality direction presented.','3D test fit development commenced.','Review of headcount and adjacency requirements.'],
+      nextWeek:['Develop initial concept design options.','Prepare mood boards and materiality palette.','Continue 3D modelling of test fit scenarios.','Review planning principles with client.'],
+      outstanding:[
+        {text:'Confirm headcount targets for expansion space.',done:false},
+        {text:'Receive building fitout guide from Aurora Place management.',done:false},
+        {text:'Obtain base building services drawings from landlord.',done:false}
+      ],
+      programmeNote:'Concept design phase underway. Programme on track.'
+    },
+    {// W3 — 17 Aug
+      date:'17 Aug 2025',
+      thisWeek:['Concept design options developed and presented.','Mood boards and materiality palette reviewed with client.','3D test fit scenarios reviewed and refined.','Planning principles confirmed.'],
+      nextWeek:['Refine preferred concept design option.','Develop detailed floor plan based on feedback.','Commence space planning for all work zones.','Prepare concept design report.'],
+      outstanding:[
+        {text:'Receive building fitout guide from Aurora Place management.',done:false},
+        {text:'Obtain base building services drawings from landlord.',done:false},
+        {text:'Client sign-off on preferred concept direction.',done:false}
+      ],
+      programmeNote:'Concept design progressing well. Client feedback incorporated.'
+    },
+    {// W4 — 24 Aug
+      date:'24 Aug 2025',
+      thisWeek:['Preferred concept design option refined.','Detailed floor plan developed based on client feedback.','Space planning for all work zones commenced.','Concept design report drafted.'],
+      nextWeek:['Finalise concept design for client approval.','Prepare concept design presentation.','Issue concept design package for review.','Schedule concept approval meeting.'],
+      outstanding:[
+        {text:'Obtain base building services drawings from landlord.',done:false},
+        {text:'Client sign-off on preferred concept direction.',done:false},
+        {text:'Confirm FF&E budget allocation.',done:false}
+      ],
+      programmeNote:'Approaching concept approval milestone. On programme.'
+    },
+    {// W5 — 31 Aug
+      date:'31 Aug 2025',
+      thisWeek:['Concept design package issued for client review.','Concept design presentation delivered to Bain Capital leadership.','Concept approval received — milestone achieved.','Design development phase commenced.'],
+      nextWeek:['Begin design development drawings.','Engage structural and services engineers.','Commence FF&E research and procurement schedule.','Develop detailed reflected ceiling plan.'],
+      outstanding:[
+        {text:'Confirm FF&E budget allocation.',done:false},
+        {text:'Appoint structural engineer.',done:false},
+        {text:'Appoint mechanical and electrical engineer.',done:false}
+      ],
+      programmeNote:'Concept approval milestone achieved. Design development underway.'
+    },
+    {// W6 — 07 Sep
+      date:'07 Sep 2025',
+      thisWeek:['Design development drawings commenced.','Structural and services engineers engaged.','FF&E research and procurement schedule commenced.','Reflected ceiling plan development started.'],
+      nextWeek:['Progress design development documentation.','Coordinate with structural engineer on slab penetrations.','Develop joinery and partition schedules.','Review services coordination requirements.'],
+      outstanding:[
+        {text:'Appoint mechanical and electrical engineer.',done:false},
+        {text:'Confirm joinery specification approach.',done:false},
+        {text:'Receive structural engineer preliminary advice.',done:false}
+      ],
+      programmeNote:'Design development on track. Consultant coordination progressing.'
+    },
+    {// W7 — 14 Sep
+      date:'14 Sep 2025',
+      thisWeek:['Design development documentation progressing.','Structural coordination meeting held.','Joinery and partition schedules under development.','Services coordination requirements reviewed.'],
+      nextWeek:['Progress DD drawings across all disciplines.','Develop detailed FF&E schedule.','Commence finishes schedule.','Review structural advice and incorporate into drawings.'],
+      outstanding:[
+        {text:'Confirm joinery specification approach.',done:false},
+        {text:'Receive structural engineer preliminary advice.',done:false},
+        {text:'Client review of DD progress drawings.',done:false}
+      ],
+      programmeNote:'Design development progressing across all disciplines.'
+    },
+    {// W8 — 21 Sep
+      date:'21 Sep 2025',
+      thisWeek:['DD drawings progressing across all disciplines.','Detailed FF&E schedule drafted.','Finishes schedule commenced.','Structural advice received and incorporated.'],
+      nextWeek:['Issue DD progress set to client for review.','Develop door and hardware schedule.','Coordinate services layouts with engineers.','Prepare design sign-off presentation.'],
+      outstanding:[
+        {text:'Client review of DD progress drawings.',done:false},
+        {text:'Confirm door and hardware specification.',done:false},
+        {text:'Services coordination drawings from engineers.',done:false}
+      ],
+      programmeNote:'DD midpoint reached. Client review scheduled.'
+    },
+    {// W9 — 28 Sep
+      date:'28 Sep 2025',
+      thisWeek:['DD progress set issued to client for review.','Door and hardware schedule developed.','Services layouts coordinated with engineers.','Design sign-off presentation prepared.'],
+      nextWeek:['Incorporate client feedback on DD drawings.','Finalise all schedules for design sign-off.','Issue final DD package for approval.','Schedule design sign-off meeting.'],
+      outstanding:[
+        {text:'Confirm door and hardware specification.',done:false},
+        {text:'Client sign-off on DD package.',done:false},
+        {text:'Finalise finishes schedule.',done:false}
+      ],
+      programmeNote:'Approaching design sign-off milestone.'
+    },
+    {// W10 — 05 Oct
+      date:'05 Oct 2025',
+      thisWeek:['Client feedback on DD drawings incorporated.','All schedules finalised for design sign-off.','Final DD package issued for approval.','Design sign-off achieved — milestone reached.'],
+      nextWeek:['Commence tender documentation phase.','Prepare tender drawings package.','Develop specification sections.','Engage quantity surveyor for cost plan update.'],
+      outstanding:[
+        {text:'Appoint quantity surveyor.',done:false},
+        {text:'Confirm tender strategy with client.',done:false},
+        {text:'Prepare list of invited tenderers.',done:false}
+      ],
+      programmeNote:'Design sign-off milestone achieved. Tender documentation commenced.'
+    },
+    {// W11 — 12 Oct
+      date:'12 Oct 2025',
+      thisWeek:['Tender documentation commenced.','Tender drawings package in progress.','Specification sections being developed.','QS engaged for cost plan update.'],
+      nextWeek:['Progress tender drawings across all trades.','Develop general and particular conditions of contract.','Coordinate with engineers on tender spec sections.','Issue preliminary cost plan.'],
+      outstanding:[
+        {text:'Confirm list of invited tenderers.',done:false},
+        {text:'Receive preliminary QS cost plan.',done:false},
+        {text:'Confirm contract form and conditions.',done:false}
+      ],
+      programmeNote:'Tender documentation phase underway. QS coordinating.'
+    },
+    {// W12 — 19 Oct
+      date:'19 Oct 2025',
+      thisWeek:['Tender drawings progressing across all trades.','General and particular conditions of contract developed.','Engineer spec sections coordinated.','Preliminary cost plan received from QS.'],
+      nextWeek:['Finalise tender drawings and specifications.','Prepare tender bill of quantities.','Issue tender package for internal review.','Confirm tenderer shortlist.'],
+      outstanding:[
+        {text:'Confirm list of invited tenderers.',done:false},
+        {text:'Internal review of tender package.',done:false},
+        {text:'Final QS review of tender documents.',done:false}
+      ],
+      programmeNote:'Tender documentation on track for issue.'
+    },
+    {// W13 — 26 Oct
+      date:'26 Oct 2025',
+      thisWeek:['Tender drawings and specifications finalised.','Tender bill of quantities prepared.','Tender package issued for internal review.','Tenderer shortlist confirmed.'],
+      nextWeek:['Issue tender package to shortlisted contractors.','Conduct pre-tender briefing on site.','Manage tenderer queries.','Progress page turn preparation.'],
+      outstanding:[
+        {text:'Issue tender package to contractors.',done:false},
+        {text:'Conduct pre-tender site briefing.',done:false},
+        {text:'Page turn meeting with Bain Capital.',done:false}
+      ],
+      programmeNote:'Tender package ready for issue. Page turn scheduled.'
+    },
+    {// W14 — 02 Nov
+      date:'02 Nov 2025',
+      thisWeek:['Tender package issued to shortlisted contractors.','Pre-tender briefing conducted on site.','Page turn meeting held with Bain Capital — milestone achieved.','Tender issue for tender milestone achieved.'],
+      nextWeek:['Manage contractor queries during tender period.','Issue addenda as required.','Monitor tender programme.','Commence value management review.'],
+      outstanding:[
+        {text:'Respond to contractor tender queries.',done:false},
+        {text:'Issue addendum 1 if required.',done:false},
+        {text:'Value management options under review.',done:false}
+      ],
+      programmeNote:'Tender period underway. Page turn and issue for tender milestones achieved.'
+    },
+    {// W15 — 09 Nov
+      date:'09 Nov 2025',
+      thisWeek:['Contractor queries managed and addenda issued.','Value management options reviewed with client.','Tender period monitoring ongoing.','Mid-tender check-in with shortlisted contractors.'],
+      nextWeek:['Continue managing tender queries.','Prepare tender returns assessment framework.','Coordinate with QS on evaluation criteria.','Finalise value management recommendations.'],
+      outstanding:[
+        {text:'Issue addendum 2 if required.',done:false},
+        {text:'Tender returns assessment framework prepared.',done:false},
+        {text:'Value management sign-off from client.',done:false}
+      ],
+      programmeNote:'Tender period progressing. Tender returns due shortly.'
+    },
+    {// W16 — 16 Nov
+      date:'16 Nov 2025',
+      thisWeek:['Final tender queries managed.','Tender returns assessment framework prepared.','Value management recommendations finalised.','Tender returns received — milestone achieved.'],
+      nextWeek:['Commence tender analysis and evaluation.','Interview shortlisted contractors.','Prepare tender report for client.','Make recommendation for award.'],
+      outstanding:[
+        {text:'Complete tender analysis.',done:false},
+        {text:'Contractor interviews scheduled.',done:false},
+        {text:'Tender report prepared.',done:false}
+      ],
+      programmeNote:'Tender returns milestone achieved. Evaluation underway.'
+    },
+    {// W17 — 23 Nov
+      date:'23 Nov 2025',
+      thisWeek:['Tender analysis and evaluation completed.','Shortlisted contractors interviewed.','Tender report prepared and issued to client.','Award recommendation made — GC award milestone achieved.'],
+      nextWeek:['Execute contract with appointed contractor.','Mobilise contractor for site take-on.','Prepare site establishment requirements.','Issue construction drawings package.'],
+      outstanding:[
+        {text:'Execute head contract.',done:false},
+        {text:'Contractor insurance and bonds confirmed.',done:false},
+        {text:'Site establishment plan from contractor.',done:false}
+      ],
+      programmeNote:'Award GC milestone achieved. Construction phase commencing.'
+    },
+    {// W18 — 30 Nov
+      date:'30 Nov 2025',
+      thisWeek:['Head contract executed with appointed contractor.','Contractor mobilised — take on site milestone achieved.','Site establishment underway.','Construction drawings package issued.'],
+      nextWeek:['Commence demolition and strip-out works.','Hold first site meeting.','Establish construction programme review cadence.','Commence weekly site inspections.'],
+      outstanding:[
+        {text:'Contractor insurance and bonds confirmed.',done:false},
+        {text:'First site meeting held.',done:false},
+        {text:'Demolition programme reviewed.',done:false}
+      ],
+      programmeNote:'Take on site milestone achieved. Construction underway.'
+    },
+    {// W19 — 07 Dec
+      date:'07 Dec 2025',
+      thisWeek:['Demolition and strip-out works commenced.','First site meeting held.','Construction programme reviewed.','Weekly site inspection regime established.'],
+      nextWeek:['Progress demolition works.','Review structural works programme.','Coordinate early procurement of long-lead items.','Issue site instruction register.'],
+      outstanding:[
+        {text:'Long-lead items procurement confirmed.',done:false},
+        {text:'Structural works programme reviewed.',done:false},
+        {text:'Site instruction register issued.',done:false}
+      ],
+      programmeNote:'Construction phase progressing. Demolition underway.'
+    },
+    {// W20 — 14 Dec
+      date:'14 Dec 2025',
+      thisWeek:['Demolition works progressing on programme.','Structural works programme reviewed.','Long-lead items procurement confirmed.','Site instruction register issued.'],
+      nextWeek:['Christmas shutdown commencing 21 Dec.','Site secure and made safe for shutdown period.','Resume site works 5 Jan 2026.','Programme review on return.'],
+      outstanding:[
+        {text:'Site secured for Christmas shutdown.',done:false},
+        {text:'Programme review on return from shutdown.',done:false}
+      ],
+      programmeNote:'Construction progressing. Christmas shutdown from 21 Dec to 4 Jan.'
+    },
+    {// W21 — 21 Dec (XMAS)
+      date:'21 Dec 2025',
+      thisWeek:['Site secured and made safe for Christmas shutdown.','All trades signed off for holiday period.','Outstanding site instructions reviewed prior to shutdown.','Programme reviewed for return in January.'],
+      nextWeek:['Christmas & New Year shutdown — site closed.','Resume works week commencing 5 Jan 2026.','Programme review meeting on return.','Issue updated construction programme.'],
+      outstanding:[
+        {text:'Site secured for Christmas shutdown.',done:false},
+        {text:'Programme update issued for January return.',done:false}
+      ],
+      programmeNote:'Christmas shutdown period. Site resumes 5 Jan 2026.'
+    },
+    {// W22 — 28 Dec
+      date:'28 Dec 2025',
+      thisWeek:['Christmas & New Year shutdown period.','Site closed — no works on site.','Made For team on leave.','Resume week commencing 5 Jan 2026.'],
+      nextWeek:['Resume construction works 5 Jan.','Site remobilisation and programme review.','Review progress against programme.','Issue updated programme to all parties.'],
+      outstanding:[
+        {text:'Programme update issued for January return.',done:false},
+        {text:'Contractor remobilisation plan confirmed.',done:false}
+      ],
+      programmeNote:'Shutdown period. All parties resume 5 Jan 2026.'
+    },
+    {// W23 — 04 Jan
+      date:'04 Jan 2026',
+      thisWeek:['Construction works resumed post-shutdown.','Site remobilisation completed.','Programme review meeting held.','Updated construction programme issued.'],
+      nextWeek:['Progress framing and partition works.','Commence rough-in services installation.','Review FF&E procurement status.','Coordinate joinery manufacture progress.'],
+      outstanding:[
+        {text:'Contractor remobilisation plan confirmed.',done:false},
+        {text:'FF&E procurement status reviewed.',done:false},
+        {text:'Joinery manufacture programme confirmed.',done:false}
+      ],
+      programmeNote:'Works resumed post-shutdown. Programme monitoring underway.'
+    },
+    {// W24 — 11 Jan
+      date:'11 Jan 2026',
+      thisWeek:['Framing and partition works progressing.','Rough-in services installation commenced.','FF&E procurement status reviewed.','Joinery manufacture programme confirmed.'],
+      nextWeek:['Continue partition and ceiling works.','Progress mechanical and electrical rough-in.','Review joinery shop drawings.','Commence architectural finishes installation.'],
+      outstanding:[
+        {text:'Joinery shop drawings reviewed and approved.',done:false},
+        {text:'Architectural finishes delivery dates confirmed.',done:false},
+        {text:'Site progress photograph set updated.',done:false}
+      ],
+      programmeNote:'Construction progressing well post-shutdown. On programme.'
+    },
+    {// W25 — 18 Jan
+      date:'18 Jan 2026',
+      thisWeek:['Partition and ceiling works continuing.','Mechanical and electrical rough-in progressing.','Joinery shop drawings reviewed.','Architectural finishes installation commenced.'],
+      nextWeek:['Complete rough-in works.','Begin fit-off of services.','Progress joinery installation.','Commence painting and floor preparation.'],
+      outstanding:[
+        {text:'Architectural finishes delivery dates confirmed.',done:false},
+        {text:'Defects inspection schedule prepared.',done:false},
+        {text:'FF&E delivery and installation programme confirmed.',done:false}
+      ],
+      programmeNote:'Construction in fit-out phase. Tracking to programme.'
+    },
+    {// W26 — 25 Jan
+      date:'25 Jan 2026',
+      thisWeek:['Rough-in works completed.','Services fit-off commenced.','Joinery installation progressing.','Painting and floor preparation underway.'],
+      nextWeek:['Complete joinery installation.','Progress FF&E delivery and installation.','Conduct defects inspection.','Prepare practical completion checklist.'],
+      outstanding:[
+        {text:'FF&E delivery and installation programme confirmed.',done:false},
+        {text:'Defects inspection scheduled.',done:false},
+        {text:'Practical completion checklist issued.',done:false}
+      ],
+      programmeNote:'Fit-out nearing completion. Final trades on site.'
+    },
+    {// W27 — 01 Feb
+      date:'01 Feb 2026',
+      thisWeek:['Joinery installation completed.','FF&E delivered and installed.','Defects inspection conducted.','Practical completion checklist issued.'],
+      nextWeek:['Defects rectification period.','Final client walkthrough and handover preparation.','Commissioning of all services.','FDOB — Fit-Out Date of Beneficial Occupancy achieved.'],
+      outstanding:[
+        {text:'All defects rectified prior to handover.',done:false},
+        {text:'Services commissioning certificates received.',done:false},
+        {text:'As-built drawings issued.',done:false},
+        {text:'O&M manuals issued.',done:false}
+      ],
+      programmeNote:'Approaching FDOB. Handover preparations underway. Target February 2026 remains on track.'
+    }
+  ],
+  budget:{baseContract:513000,cVar:{approved:[],pending:[]},dVar:{approved:[],pending:[]}},
+  docs:{
+    strategy:[],concept:[],dd:[],documentation:[],
+    tender:{longlist:[],shortlist:[],responses:[],recommendation:null}
+  },
+  open:{strategy:true,concept:false,dd:false,documentation:false}
+};
+
+const DOC_SECS=[
+  {key:'strategy',label:'STRATEGY',icon:'📋',color:'#3F65D6'},
+  {key:'concept',label:'CONCEPT DESIGN',icon:'✏️',color:'#A490DB'},
+  {key:'dd',label:'DESIGN DEVELOPMENT',icon:'📐',color:'#A490DB'},
+  {key:'documentation',label:'DOCUMENTATION',icon:'📁',color:'#A3ACA5'}
+];
+
+const PHASES=[
+  {label:'MOBILISE & STRATEGY',sub:'1 week',color:'#3F65D6',s:0,d:1},
+  {label:'CONCEPT DESIGN',sub:'4 weeks',color:'#A490DB',s:1,d:4},
+  {label:'DESIGN DEVELOPMENT',sub:'4 weeks',color:'#A490DB',s:5,d:4},
+  {label:'TENDER DOCUMENTATION',sub:'4 weeks',color:'#3F65D6',s:9,d:4},
+  {label:'TENDER & VALUE MANAGEMENT',sub:'4 weeks',color:'#3F65D6',s:13,d:4},
+  {label:'CONSTRUCTION & DELIVERY',sub:'10 weeks',color:'#299F3D',s:17,d:10}
+];
+const TWC=27;
+const WLBL=['03.08','10.08','17.08','24.08','31.08','07.09','14.09','21.09','28.09','05.10','12.10','19.10','26.10','02.11','09.11','16.11','23.11','30.11','07.12','14.12','21.12','28.12','04.01','11.01','18.01','25.01','01.02'];
+const MM={0:'Kick-off',4:'Concept Approval',8:'Design Sign-off',12:'Page Turn',13:'Issue for Tender',15:'Tender Returns',16:'Award GC',17:'Take On Site',26:'FDOB'};
+const MMP={'08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec','01':'Jan','02':'Feb'};
+const XMAS_WK=20; // w/c 21 Dec — Christmas shutdown
+
+function cur(n){return '$'+Number(n).toLocaleString('en-AU',{minimumFractionDigits:0});}
+function switchTab(t){S.activeTab=t;document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');render();}
+function openPanel(){document.getElementById('sidePanel').classList.add('open');document.getElementById('panelBg').classList.add('open');}
+function closePanel(){document.getElementById('sidePanel').classList.remove('open');document.getElementById('panelBg').classList.remove('open');}
+function sw(i){S.activeWeek=i;render();}
+function ti(wi,ii){S.weeks[wi].outstanding[ii].done=!S.weeks[wi].outstanding[ii].done;render();}
+function ts(k){S.open[k]=!S.open[k];render();}
+
+function render(){
+  if(S.activeTab==='team')rTeam();
+  else if(S.activeTab==='progress')rProgress();
+  else if(S.activeTab==='programme')rProgramme();
+  else if(S.activeTab==='budget')rBudget();
+  else if(S.activeTab==='tender')rTender();
+  else rDocuments();
+}
+
+
+
+function rTeam(){
+  const members=[
+    {
+      name:'Kat McMahon',
+      role:'Strategy Director',
+      phone:'0411 760 246',
+      email:'kat@made-for.com.au',
+      responsibilities:[
+        'Champions the project internally.',
+        'Ensures strategic alignment with business goals and global workplace standards.',
+        'Provides guidance, support, and escalation pathways for critical decisions.',
+        'Safeguards quality and outcomes without managing daily tasks.',
+        'Sits in on key client meetings, fact finds and presentations.'
+      ]
+    },
+    {
+      name:'Chris Free',
+      role:'Design Director',
+      phone:'0488 327 815',
+      email:'chris@made-for.com.au',
+      responsibilities:[
+        'Drives the overarching design strategy from briefing to delivery including client presentations.',
+        'Leads all consultant coordination and ensures design alignment.',
+        'Provides quality control across all drawing packages.',
+        'Balances big-picture vision with detailed technical resolution.',
+        'Ensures consistency of design narrative throughout the project.'
+      ]
+    },
+    {
+      name:'Sophie Woods',
+      role:'Interior Designer',
+      phone:'',
+      email:'',
+      responsibilities:[
+        'Develops design documentation across all phases of the project.',
+        'Selects materials, finishes, and furniture aligned with the design narrative.',
+        'Produces drawings, mood boards, and presentation materials.',
+        'Supports coordination with suppliers and consultants.',
+        'Ensures detailing reflects both creative intent and practical needs.'
+      ]
+    },
+    {
+      name:'Lara Pillot',
+      role:'Associate Director',
+      phone:'',
+      email:'',
+      responsibilities:[
+        'Leads the client side PM role on site in collaboration with the strategy lead.',
+        'Runs tender process with select tenderers.',
+        'Reviews cost proposals and issues value management solutions through tender stage.',
+        'Coordinates PCG meetings with on site team.',
+        'Manages CDC application and landlord communication.',
+        'Issues and coordinates As Built drawings.',
+        'Coordinates 30, 90 and 365 day check ins.',
+        'Issues client weekly wrap emails and communications.'
+      ]
+    }
+  ];
+
+  let h=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">`;
+  members.forEach(m=>{
+    h+=`<div style="background:var(--offwhite);border:1px solid var(--grey);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">`;
+    h+=`<div style="padding:18px 18px 0;">`;
+    h+=`<p style="font-size:16px;font-weight:900;color:var(--charcoal);font-family:'Marr Sans','Inter','DM Sans',sans-serif;line-height:1.15;margin-bottom:5px;">${m.name}</p>`;
+    h+=`<p style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);font-family:'DM Sans',sans-serif;margin-bottom:14px;">${m.role}</p>`;
+    h+=`</div>`;
+    h+=`<div style="padding:0 18px;flex:1;">`;
+    h+=`<div style="border-top:1px solid rgba(163,172,165,0.35);padding-top:12px;">`;
+    m.responsibilities.forEach(r=>{
+      h+=`<p style="font-size:12px;color:var(--charcoal);font-family:'DM Sans',sans-serif;line-height:1.6;padding:4px 0;border-bottom:1px solid rgba(163,172,165,0.15);display:flex;gap:8px;"><span style="color:var(--charcoal);font-weight:700;flex-shrink:0;">—</span>${r}</p>`;
+    });
+    h+=`</div></div>`;
+    if(m.phone||m.email){
+      h+=`<div style="border-top:1px solid rgba(163,172,165,0.35);margin:14px 18px 0;padding:12px 0 18px;">`;
+      if(m.phone)h+=`<p style="font-size:12px;color:var(--charcoal);font-family:'DM Sans',sans-serif;font-weight:500;margin-bottom:2px;">${m.phone}</p>`;
+      if(m.email)h+=`<p style="font-size:12px;color:var(--blue);font-family:'DM Sans',sans-serif;">${m.email}</p>`;
+      h+=`</div>`;
+    } else {
+      h+=`<div style="padding-bottom:18px;"></div>`;
+    }
+    h+=`</div>`;
+  });
+  h+=`</div>`;
+  document.getElementById('mainContent').innerHTML=h;
+}
+
+
+function rProgress(){
+  const w=S.weeks,aw=S.activeWeek;
+  let h='';
+  if(w.length){
+    h+=`<div class="week-bar"><p class="week-bar-label">Select Week</p><div class="week-chips">`;
+    w.forEach((wk,i)=>{h+=`<span class="chip ${i===aw?'active':''}" onclick="sw(${i})">${wk.date}</span>`;});
+    h+=`<span class="chip add" onclick="openAddWeek()">+ Add Week</span></div></div>`;
+    const c=w[aw];
+    h+=`<div class="block"><div class="block-head"><span class="block-label">This Week — W/E ${c.date}</span></div><div class="block-body"><ol class="num-list">`;
+    c.thisWeek.forEach(x=>{h+=`<li>${x}</li>`;});
+    h+=`</ol></div></div>`;
+    h+=`<div class="block"><div class="block-head"><span class="block-label">Next Week</span></div><div class="block-body"><ol class="num-list">`;
+    c.nextWeek.forEach(x=>{h+=`<li>${x}</li>`;});
+    h+=`</ol></div></div>`;
+    h+=`<div class="block"><div class="block-head"><span class="block-label">Outstanding Items</span></div><div class="block-body">`;
+    if(!c.outstanding.length)h+=`<p class="empty">No outstanding items.</p>`;
+    c.outstanding.forEach((item,idx)=>{h+=`<div class="oi ${item.done?'done':''}"><input type="checkbox" ${item.done?'checked':''} id="oi_${aw}_${idx}" onchange="ti(${aw},${idx})"><label for="oi_${aw}_${idx}">${item.text}</label></div>`;});
+    h+=`</div></div>`;
+  } else {
+    h+=`<div class="block"><div class="block-body"><p class="empty">No weeks added yet. Use the menu to add the first weekly report.</p></div></div>`;
+  }
+  document.getElementById('mainContent').innerHTML=h;
+}
+
+function rProgramme(){
+  let h=`<div class="date-row">`;
+  h+=`<div class="date-card"><p class="dc-label">Mobilise</p><p class="dc-value">3 Aug 2025</p></div>`;
+  h+=`<div class="date-card"><p class="dc-label">Take On Site</p><p class="dc-value">1 Dec 2026</p></div>`;
+  h+=`<div class="date-card green-accent"><p class="dc-label">First Day Of Business Target</p><p class="dc-value">1 Feb 2027</p></div>`;
+  h+=`</div>`;
+  h+=`<div class="legend">`;
+  h+=`<div class="legend-item"><div class="l-dot" style="background:#3F65D6;"></div>Design &amp; Tender</div>`;
+  h+=`<div class="legend-item"><div class="l-dot" style="background:#A490DB;"></div>Design Development</div>`;
+  h+=`<div class="legend-item"><div class="l-dot" style="background:#299F3D;"></div>Construction</div>`;
+  h+=`<div class="legend-item"><div class="l-diamond"></div>Milestone</div>`;
+  h+=`</div>`;
+  // Build month groupings for header
+  const monthOf=i=>WLBL[i].split('.')[1];
+  let monthGroups=[];
+  WLBL.forEach((lbl,i)=>{const m=monthOf(i);if(!monthGroups.length||monthGroups[monthGroups.length-1].key!==m)monthGroups.push({key:m,label:MMP[m],start:i,span:1});else monthGroups[monthGroups.length-1].span++;});
+
+  h+=`<div class="block"><div class="gantt-wrap"><table class="gantt-tbl"><thead>`;
+  // Row 1 — month bands
+  h+=`<tr><th style="min-width:190px;padding-right:16px;"></th>`;
+  monthGroups.forEach((mg,gi)=>{
+    h+=`<th colspan="${mg.span}" class="g-month${gi===0?'':' new-month'}">${mg.label}</th>`;
+  });
+  h+=`</tr>`;
+  // Row 2 — week numbers (day.month labels)
+  h+=`<tr><th style="min-width:190px;"></th>`;
+  WLBL.forEach((lbl,i)=>{
+    const isFirst=i===0||monthOf(i)!==monthOf(i-1);
+    const dayPart=lbl.split('.')[0];
+    const isXmas=i===XMAS_WK;
+    h+=`<th class="g-wk${isFirst&&i>0?' new-month':''}${isXmas?' xmas':''}">${dayPart}${isXmas?' ✕':''}</th>`;
+  });
+  h+=`</tr></thead><tbody>`;
+
+  PHASES.forEach(ph=>{
+    h+=`<tr class="g-row"><td class="g-label">${ph.label}<span class="g-sub">${ph.sub}</span></td>`;
+    for(let wc=0;wc<TWC;wc++){
+      const inp=wc>=ph.s&&wc<ph.s+ph.d;
+      const isF=wc===ph.s,isL=wc===ph.s+ph.d-1;
+      const isFirst=wc===0||monthOf(wc)!==monthOf(wc-1);
+      const altBg=Math.floor(WLBL[wc].split('.')[1]%2)===0;
+      const isXmas=wc===XMAS_WK;
+      const cls=`g-cell${isFirst&&wc>0?' new-month':''}${altBg&&!isXmas?' alt':''}${isXmas?' xmas':''}`;
+      if(inp){const r=isF&&isL?'3px':isF?'3px 0 0 3px':isL?'0 3px 3px 0':'0';h+=`<td class="${cls}"><div class="g-bar" style="background:${isXmas?'rgba(163,172,165,0.3)':ph.color};border-radius:${r};"></div></td>`;}
+      else h+=`<td class="${cls}"></td>`;
+    }
+    h+=`</tr>`;
+  });
+  // Milestone row
+  h+=`<tr><td class="g-label" style="font-size:11px;color:var(--grey);font-weight:400;padding-top:6px;">Milestones</td>`;
+  for(let wc=0;wc<TWC;wc++){
+    const ml=MM[wc];
+    const isFirst=wc===0||monthOf(wc)!==monthOf(wc-1);
+    const cls=isFirst&&wc>0?'new-month':'';
+    h+=ml?`<td class="${cls}" style="text-align:center;padding-top:6px;" title="${ml}"><div style="width:9px;height:9px;background:var(--charcoal);transform:rotate(45deg);border-radius:1px;margin:auto;"></div></td>`:`<td class="${cls}"></td>`;
+  }
+  h+=`</tr><tr><td></td>`;
+  for(let wc=0;wc<TWC;wc++){const ml=MM[wc];h+=ml?`<td style="font-size:9px;color:var(--charcoal);font-weight:600;text-align:center;vertical-align:top;padding:3px 1px 0;line-height:1.2;white-space:nowrap;">${ml}</td>`:`<td></td>`;}
+  h+=`</tr></tbody></table></div></div>`;
+  const notes=S.weeks.filter(w=>w.programmeNote).map(w=>({date:w.date,note:w.programmeNote}));
+  if(notes.length){
+    h+=`<div class="block" style="margin-top:12px;"><div class="block-head"><span class="block-label">Programme Notes</span></div><div class="block-body">`;
+    notes.forEach(n=>{h+=`<div style="display:flex;gap:16px;padding:8px 0;border-bottom:1px solid rgba(163,172,165,0.2);"><span style="font-size:11px;color:var(--grey);min-width:88px;font-weight:500;font-family:'DM Sans',sans-serif;">${n.date}</span><p style="font-size:13px;color:var(--charcoal);line-height:1.6;font-family:'DM Sans',sans-serif;">${n.note}</p></div>`;});
+    h+=`</div></div>`;
+  }
+  document.getElementById('mainContent').innerHTML=h;
+}
+
+function rBudget(){
+  const b=S.budget;
+  const appC=b.cVar.approved.reduce((s,v)=>s+parseFloat(v.amount),0);
+  const appD=b.dVar.approved.reduce((s,v)=>s+parseFloat(v.amount),0);
+  const penC=b.cVar.pending.reduce((s,v)=>s+parseFloat(v.amount),0);
+  const penD=b.dVar.pending.reduce((s,v)=>s+parseFloat(v.amount),0);
+
+  // Fixed cost data
+  const expSpace=438000,workspace=75000;
+  const constrSub=expSpace+workspace; // 513,000
+  const mep=15000,certifier=6500,lsl=6725;
+  const extSub=mep+certifier+lsl; // 28,225
+  const mfDesign=14875,mfPM=19440;
+  const mfSub=mfDesign+mfPM; // 34,315
+  const fitoutTotal=constrSub+extSub+mfSub+appC+appD;
+
+  const cc=(n)=>'$'+Number(n).toLocaleString('en-AU',{minimumFractionDigits:0});
+
+  const col=(title,rows,subtotalLabel,subtotal,accent)=>{
+    let c=`<div style="flex:1;min-width:0;border:1px solid var(--grey);border-radius:4px;overflow:hidden;border-top:3px solid ${accent};">`;
+    c+=`<div style="padding:16px 20px 14px;border-bottom:1px solid rgba(163,172,165,0.3);"><p style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--charcoal);font-family:'DM Sans',sans-serif;">${title}</p></div>`;
+    c+=`<div style="background:var(--offwhite);">`;
+    rows.forEach(r=>{
+      c+=`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:11px 20px;border-bottom:1px solid rgba(163,172,165,0.12);">`;
+      c+=`<span style="font-size:13px;color:var(--charcoal);font-family:'DM Sans',sans-serif;">${r.label}</span>`;
+      c+=`<span style="font-size:13px;font-weight:700;color:var(--charcoal);font-family:'DM Sans',sans-serif;white-space:nowrap;margin-left:16px;">${cc(r.amount)}</span>`;
+      c+=`</div>`;
+    });
+    // variations if construction col
+    if(appC+appD>0&&title.includes('Construction')){
+      c+=`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:11px 20px;border-bottom:1px solid rgba(163,172,165,0.12);">`;
+      c+=`<span style="font-size:13px;color:var(--charcoal);font-family:'DM Sans',sans-serif;">Approved Variations</span>`;
+      c+=`<span style="font-size:13px;font-weight:700;color:var(--green);font-family:'DM Sans',sans-serif;">${cc(appC+appD)}</span>`;
+      c+=`</div>`;
+    }
+    c+=`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:13px 20px;background:rgba(163,172,165,0.1);border-top:1px solid rgba(163,172,165,0.25);">`;
+    c+=`<span style="font-size:12px;font-weight:700;color:var(--charcoal);font-family:'DM Sans',sans-serif;letter-spacing:0.02em;">${subtotalLabel}</span>`;
+    c+=`<span style="font-size:14px;font-weight:900;color:var(--charcoal);font-family:'DM Sans',sans-serif;">${cc(subtotal)}</span>`;
+    c+=`</div></div></div>`;
+    return c;
+  };
+
+  let h=`<div style="margin-bottom:6px;"><p style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);font-weight:700;font-family:'DM Sans',sans-serif;">Total Cost Estimate</p></div>`;
+  h+=`<div style="display:flex;gap:14px;margin-bottom:16px;align-items:flex-start;">`;
+  h+=col('Estimated Construction Cost',[
+    {label:'Expansion Space ($3,000 / SQM)',amount:expSpace},
+    {label:'Workspace ($1,500 / SQM)',amount:workspace}
+  ],'Estimated Subtotal (ex GST)',constrSub+appC+appD,'var(--blue)');
+  h+=col('External Consultant Fees',[
+    {label:'MEP, Security Fire, Acoustics',amount:mep},
+    {label:'Certifier / Associated Fees',amount:certifier},
+    {label:'Long Service Levy',amount:lsl}
+  ],'Estimated Subtotal (ex GST)',extSub,'var(--purple)');
+  h+=col('Made For Professional Fees',[
+    {label:'Made For Design Fee',amount:mfDesign},
+    {label:'Made For Project Mgmt Fee',amount:mfPM}
+  ],'Subtotal (ex GST)',mfSub,'var(--sky)');
+  h+=`</div>`;
+
+  // Fitout total bar
+  h+=`<div style="border:1px solid var(--charcoal);border-radius:4px;padding:20px 28px;background:var(--charcoal);display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">`;
+  h+=`<div><p style="font-size:16px;font-weight:900;color:var(--offwhite);font-family:'DM Sans',sans-serif;letter-spacing:-0.01em;">Fitout Total (ex GST)</p><p style="font-size:11px;color:rgba(231,231,221,0.45);margin-top:4px;font-family:'DM Sans',sans-serif;">Excludes AV.</p></div>`;
+  h+=`<p style="font-size:32px;font-weight:900;color:var(--offwhite);letter-spacing:-0.03em;font-family:'DM Sans',sans-serif;">${cc(fitoutTotal)}</p>`;
+  h+=`</div>`;
+
+  // Variations blocks
+  h+=rVarBlock('c','CONTRACTOR VARIATIONS','var(--purple)');
+  h+=rVarBlock('d','DESIGN VARIATIONS','var(--sky)');
+  document.getElementById('mainContent').innerHTML=h;
+}
+
+function rVarBlock(k,label,accent){
+  const vars=k==='c'?S.budget.cVar:S.budget.dVar;
+  const appTot=vars.approved.reduce((s,v)=>s+parseFloat(v.amount),0);
+  let h=`<div class="var-block" style="border-left:3px solid ${accent};">`;
+  h+=`<div class="var-block-head"><span class="var-block-title">${label}</span><span class="var-block-total">Approved: ${cur(appTot)}</span></div>`;
+  if(vars.approved.length){
+    h+=`<div class="var-sublabel">Approved</div>`;
+    vars.approved.forEach(v=>{h+=`<div class="var-row"><div><p class="var-desc">${v.desc}</p><p class="var-meta">Approved ${v.date}.</p></div><span class="var-amt-green">${cur(v.amount)}</span></div>`;});
+  }
+  if(vars.pending.length){
+    h+=`<div class="var-sublabel" style="border-top:1px solid rgba(163,172,165,0.15);">Pending Approval</div>`;
+    vars.pending.forEach((v,i)=>{h+=`<div class="var-row"><div><p class="var-desc">${v.desc}</p></div><div style="display:flex;align-items:center;gap:10px;"><span class="var-amt-gold">${cur(v.amount)}</span><div class="var-actions"><button class="btn btn-sm btn-blue" onclick="approveVar('${k}',${i})">Approve</button><button class="btn btn-sm btn-dim" onclick="removeVar('${k}',${i})">Remove</button></div></div></div>`;});
+  }
+  if(!vars.approved.length&&!vars.pending.length)h+=`<p class="empty">No variations logged.</p>`;
+  h+=`<div class="inline-form" id="vf_${k}">`;
+  h+=`<div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Description</label><input type="text" id="vd_${k}" placeholder="Description of variation."></div><div class="fg" style="margin-bottom:0;"><label>Amount ($)</label><input type="number" id="va_${k}" placeholder="0"></div></div>`;
+  h+=`<button class="btn btn-md btn-blue" onclick="addVar('${k}')">Add To Pending</button></div>`;
+  h+=`<div class="var-footer"><button class="btn btn-md btn-ghost" onclick="toggleIF('vf_${k}')">+ Add Variation</button></div>`;
+  h+=`</div>`;
+  return h;
+}
+
+function rDocuments(){
+  let h='';
+  DOC_SECS.forEach(sec=>{
+    const isOpen=S.open[sec.key];
+    const count=S.docs[sec.key].length;
+    h+=`<div class="doc-accordion">`;
+    h+=`<div class="doc-acc-head" onclick="ts('${sec.key}')">`;
+    h+=`<div class="doc-acc-left"><div class="doc-icon" style="background:${sec.color}15;">${sec.icon}</div>`;
+    h+=`<div><p class="doc-acc-title">${sec.label}</p><p class="doc-acc-count">${count} item${count!==1?'s':''}</p></div></div>`;
+    h+=`<div class="doc-chevron ${isOpen?'open':''}">&#8964;</div></div>`;
+    h+=`<div class="doc-body ${isOpen?'open':''}">`;
+    const docs=S.docs[sec.key];
+    if(!docs.length)h+=`<p class="empty">No documents added yet.</p>`;
+    docs.forEach((doc,i)=>{
+      h+=`<div class="doc-row"><div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;"><span style="font-size:16px;flex-shrink:0;">📄</span><div><p class="doc-name">${doc.name}</p><p class="doc-meta">${doc.date}${doc.notes?' — '+doc.notes:''}</p></div></div>`;
+      h+=`<div class="doc-right">${doc.status?`<span class="status-pill s-${doc.status}">${doc.status}</span>`:''}${doc.url?`<a class="doc-link" href="${doc.url}" target="_blank">Open ↗</a>`:''}<button class="doc-link" onclick="removeDoc('${sec.key}',${i})" style="color:var(--grey);">Remove</button></div></div>`;
+    });
+    h+=`<div class="doc-add"><button class="btn btn-md btn-ghost" onclick="toggleIF('daf_${sec.key}')">+ Add Document</button>`;
+    h+=`<div class="inline-form" id="daf_${sec.key}" style="margin-top:12px;border-top:none;padding:0;">`;
+    h+=`<div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Document Name</label><input type="text" id="dn_${sec.key}" placeholder="e.g. Strategy Report v1."></div><div class="fg" style="margin-bottom:0;"><label>Date</label><input type="text" id="dd_${sec.key}" placeholder="e.g. 4 Aug 2025"></div></div>`;
+    h+=`<div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Link (Optional)</label><input type="text" id="du_${sec.key}" placeholder="https://..."></div><div class="fg" style="margin-bottom:0;"><label>Status</label><select id="ds_${sec.key}"><option value="">— None —</option><option value="draft">Draft</option><option value="final">Final</option><option value="issued">Issued</option><option value="approved">Approved</option><option value="pending">Pending</option></select></div></div>`;
+    h+=`<div class="fg"><label>Notes (Optional)</label><input type="text" id="dno_${sec.key}" placeholder="Brief description."></div>`;
+    h+=`<button class="btn btn-md btn-blue" onclick="addDoc('${sec.key}')">Add Document</button></div></div>`;
+    h+=`</div></div>`;
+  });
+  document.getElementById('mainContent').innerHTML=h;
+}
+
+function rTender(){
+  const t=S.docs.tender;
+  let h='';
+
+  const appC=t.responses.reduce((s,r)=>s+(r.amount||0),0);
+
+  h+=`<div class="stat-row">`;
+  h+=`<div class="stat"><p class="stat-label">Long List</p><p class="stat-value">${t.longlist.length}</p><p class="stat-sub">Contractor${t.longlist.length!==1?'s':''} identified.</p></div>`;
+  h+=`<div class="stat"><p class="stat-label">Short List</p><p class="stat-value">${t.shortlist.length}</p><p class="stat-sub">Contractor${t.shortlist.length!==1?'s':''} shortlisted.</p></div>`;
+  h+=`<div class="stat"><p class="stat-label">Responses Received</p><p class="stat-value">${t.responses.length}</p><p class="stat-sub">${t.recommendation?'Recommendation set.':'Pending recommendation.'}</p></div>`;
+  h+=`</div>`;
+
+  h+=`<div class="block" style="margin-bottom:12px;">`;
+  h+=`<div class="block-head"><span class="block-label">Long List</span><span style="font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;">${t.longlist.length} contractor${t.longlist.length!==1?'s':''}</span></div>`;
+  if(!t.longlist.length)h+=`<div class="block-body"><p class="empty" style="padding:0;">No contractors added yet.</p></div>`;
+  t.longlist.forEach((c,i)=>{
+    h+=`<div class="c-row"><div><p class="c-name">${c.name}</p><p class="c-notes">${c.notes||''}</p></div>`;
+    h+=`<div class="c-right"><span class="badge b-long">Long List</span><button class="btn btn-sm btn-purple" onclick="moveShort(${i})">Shortlist ↓</button><button class="btn btn-sm btn-dim" onclick="rmLong(${i})">Remove</button></div></div>`;
+  });
+  h+=`<div class="var-footer"><button class="btn btn-md btn-ghost" onclick="toggleIF('tf_ll')">+ Add Contractor</button>`;
+  h+=`<div class="inline-form" id="tf_ll" style="margin-top:12px;border-top:none;padding:0;"><div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Contractor Name</label><input type="text" id="ll_n" placeholder="e.g. FDC Construction"></div><div class="fg" style="margin-bottom:0;"><label>Notes</label><input type="text" id="ll_no" placeholder="Brief note."></div></div><button class="btn btn-md btn-blue" onclick="addLong()">Add To Long List</button></div></div>`;
+  h+=`</div>`;
+
+  h+=`<div class="block" style="margin-bottom:12px;">`;
+  h+=`<div class="block-head"><span class="block-label">Short List</span><span style="font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;">${t.shortlist.length} contractor${t.shortlist.length!==1?'s':''}</span></div>`;
+  if(!t.shortlist.length)h+=`<div class="block-body"><p class="empty" style="padding:0;">Shortlisted contractors will appear here.</p></div>`;
+  t.shortlist.forEach((c,i)=>{
+    h+=`<div class="c-row"><div><p class="c-name">${c.name}</p><p class="c-notes">${c.notes||''}</p></div>`;
+    h+=`<div class="c-right"><span class="badge b-short">Short List</span><button class="btn btn-sm btn-dim" onclick="rmShort(${i})">Remove</button></div></div>`;
+  });
+  h+=`</div>`;
+
+  h+=`<div class="block" style="margin-bottom:12px;">`;
+  h+=`<div class="block-head"><span class="block-label">Tender Responses</span><span style="font-size:11px;color:var(--grey);font-family:'DM Sans',sans-serif;">${t.responses.length} received</span></div>`;
+  if(!t.responses.length)h+=`<div class="block-body"><p class="empty" style="padding:0;">Tender responses will appear here once received.</p></div>`;
+  t.responses.forEach((r,i)=>{
+    h+=`<div class="r-row"><div><p class="r-name">${r.name}</p><p class="r-meta">Received ${r.date}.${r.notes?' — '+r.notes:''}</p></div>`;
+    h+=`<div style="display:flex;align-items:center;gap:12px;"><p class="r-amt">${r.amount?cur(r.amount):''}</p>${r.url?`<a class="doc-link" href="${r.url}" target="_blank">Open ↗</a>`:''}<button class="btn btn-sm btn-dim" onclick="rmRes(${i})">Remove</button></div></div>`;
+  });
+  h+=`<div class="var-footer"><button class="btn btn-md btn-ghost" onclick="toggleIF('tf_res')">+ Add Response</button>`;
+  h+=`<div class="inline-form" id="tf_res" style="margin-top:12px;border-top:none;padding:0;">`;
+  h+=`<div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Contractor</label><input type="text" id="tr_n" placeholder="e.g. FDC Construction"></div><div class="fg" style="margin-bottom:0;"><label>Tender Sum ($)</label><input type="number" id="tr_a" placeholder="0"></div></div>`;
+  h+=`<div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Date Received</label><input type="text" id="tr_d" placeholder="e.g. 17 Nov 2025"></div><div class="fg" style="margin-bottom:0;"><label>Document Link</label><input type="text" id="tr_u" placeholder="https://..."></div></div>`;
+  h+=`<div class="fg"><label>Notes</label><input type="text" id="tr_no" placeholder="e.g. Includes provisional sums for AV."></div>`;
+  h+=`<button class="btn btn-md btn-blue" onclick="addRes()">Add Response</button></div></div></div>`;
+
+  h+=`<div class="block">`;
+  h+=`<div class="block-head"><span class="block-label">Recommendation</span></div>`;
+  if(t.recommendation){
+    h+=`<div class="c-row"><div><p class="c-name" style="color:var(--green);">${t.recommendation.name}</p><p class="c-notes">${t.recommendation.amount?cur(t.recommendation.amount)+' — ':''}${t.recommendation.notes||''}</p></div>`;
+    h+=`<div class="c-right"><span class="badge b-rec">Recommended</span><button class="btn btn-sm btn-dim" onclick="clrRec()">Clear</button></div></div>`;
+  } else {
+    h+=`<div class="block-body"><p class="empty" style="padding:0;">No recommendation set yet.</p></div>`;
+    h+=`<div class="var-footer"><button class="btn btn-md btn-ghost" onclick="toggleIF('tf_rec')">+ Set Recommendation</button>`;
+    h+=`<div class="inline-form" id="tf_rec" style="margin-top:12px;border-top:none;padding:0;">`;
+    h+=`<div class="form-row" style="margin-bottom:10px;"><div class="fg" style="margin-bottom:0;"><label>Recommended Contractor</label><input type="text" id="rec_n" placeholder="e.g. FDC Construction"></div><div class="fg" style="margin-bottom:0;"><label>Recommended Sum ($)</label><input type="number" id="rec_a" placeholder="0"></div></div>`;
+    h+=`<div class="fg"><label>Recommendation Notes</label><input type="text" id="rec_no" placeholder="e.g. Best value, programme certainty, relevant experience."></div>`;
+    h+=`<button class="btn btn-md btn-blue" onclick="setRec()">Set Recommendation</button></div></div>`;
+  }
+  h+=`</div>`;
+
+  document.getElementById('mainContent').innerHTML=h;
+}
+
+function toggleIF(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+
+function addDoc(key){
+  const n=document.getElementById('dn_'+key).value.trim();
+  if(!n){alert('Please enter a document name.');return;}
+  S.docs[key].push({name:n,date:document.getElementById('dd_'+key).value.trim()||'—',url:document.getElementById('du_'+key).value.trim(),status:document.getElementById('ds_'+key).value,notes:document.getElementById('dno_'+key).value.trim()});
+  S.open[key]=true;render();
+}
+function removeDoc(key,i){S.docs[key].splice(i,1);render();}
+function addLong(){
+  const n=document.getElementById('ll_n').value.trim();if(!n){alert('Please enter a contractor name.');return;}
+  S.docs.tender.longlist.push({name:n,notes:document.getElementById('ll_no').value.trim()});render();
+}
+function rmLong(i){S.docs.tender.longlist.splice(i,1);render();}
+function moveShort(i){const c=S.docs.tender.longlist.splice(i,1)[0];S.docs.tender.shortlist.push(c);render();}
+function rmShort(i){S.docs.tender.shortlist.splice(i,1);render();}
+function addRes(){
+  const n=document.getElementById('tr_n').value.trim();if(!n){alert('Please enter a contractor name.');return;}
+  S.docs.tender.responses.push({name:n,amount:parseFloat(document.getElementById('tr_a').value)||0,date:document.getElementById('tr_d').value.trim()||'—',url:document.getElementById('tr_u').value.trim(),notes:document.getElementById('tr_no').value.trim()});render();
+}
+function rmRes(i){S.docs.tender.responses.splice(i,1);render();}
+function setRec(){
+  const n=document.getElementById('rec_n').value.trim();if(!n){alert('Please enter a contractor name.');return;}
+  S.docs.tender.recommendation={name:n,amount:parseFloat(document.getElementById('rec_a').value)||0,notes:document.getElementById('rec_no').value.trim()};render();
+}
+function clrRec(){S.docs.tender.recommendation=null;render();}
+
+function approveVar(k,i){
+  const vars=k==='c'?S.budget.cVar:S.budget.dVar;
+  const v=vars.pending.splice(i,1)[0];
+  const today=new Date();const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  v.date=today.getDate()+' '+M[today.getMonth()]+' '+today.getFullYear();
+  vars.approved.push(v);render();
+}
+function removeVar(k,i){const vars=k==='c'?S.budget.cVar:S.budget.dVar;vars.pending.splice(i,1);render();}
+function addVar(k){
+  const desc=document.getElementById('vd_'+k).value.trim();
+  const amt=parseFloat(document.getElementById('va_'+k).value)||0;
+  if(!desc||!amt){alert('Please enter a description and amount.');return;}
+  const vars=k==='c'?S.budget.cVar:S.budget.dVar;
+  vars.pending.push({desc,amount:amt});render();
+}
+
+function openAddWeek(){
+  closePanel();
+  document.getElementById('modalContainer').innerHTML=`
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-head"><h3>Add Weekly Report</h3><button class="modal-close" onclick="closeModal()">×</button></div>
+      <div class="modal-body">
+        <div class="fg"><label>Week Ending Date</label><input type="text" id="wDate" placeholder="e.g. 4 Jul 2025"></div>
+        <div class="fg"><label>This Week (One Item Per Line)</label><textarea id="wThis" placeholder="Installed partition framing to northern zone.&#10;Completed electrical first fix."></textarea></div>
+        <div class="fg"><label>Next Week (One Item Per Line)</label><textarea id="wNext" placeholder="Begin plasterboard lining.&#10;Mechanical rough-in to continue."></textarea></div>
+        <div class="fg"><label>Outstanding Items (One Per Line)</label><textarea id="wOut" placeholder="Confirm AV consultant engagement.&#10;Receive revised structural drawings."></textarea></div>
+        <div class="fg"><label>Programme Note</label><textarea id="wProg" placeholder="Programme on schedule. FDOB 1 Feb 2027 remains achievable."></textarea></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-md btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-md btn-blue" onclick="saveWeek()">Add Week</button>
+      </div>
+    </div>
+  </div>`;
+}
+function saveWeek(){
+  const date=document.getElementById('wDate').value.trim();
+  if(!date){alert('Please enter the week ending date.');return;}
+  const parse=s=>s.split('\n').map(l=>l.trim()).filter(Boolean);
+  S.weeks.push({date,thisWeek:parse(document.getElementById('wThis').value),nextWeek:parse(document.getElementById('wNext').value),outstanding:parse(document.getElementById('wOut').value).map(t=>({text:t,done:false})),programmeNote:document.getElementById('wProg').value.trim()});
+  S.activeWeek=S.weeks.length-1;closeModal();switchTab('progress');
+}
+function openSetBase(){
+  document.getElementById('modalContainer').innerHTML=`
+  <div class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-head"><h3>Set Base Contract Value</h3><button class="modal-close" onclick="closeModal()">×</button></div>
+      <div class="modal-body"><div class="fg"><label>Base Contract ($)</label><input type="number" id="bBase" value="${S.budget.baseContract}"></div></div>
+      <div class="modal-foot"><button class="btn btn-md btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-md btn-blue" onclick="saveBase()">Save</button></div>
+    </div>
+  </div>`;
+}
+function saveBase(){S.budget.baseContract=parseFloat(document.getElementById('bBase').value)||0;closeModal();render();}
+function closeModal(event){if(event&&event.target!==event.currentTarget)return;document.getElementById('modalContainer').innerHTML='';}
+
+render();
+</script>
+</body>
+</html>
