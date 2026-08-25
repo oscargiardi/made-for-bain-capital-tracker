@@ -1,42 +1,27 @@
-# Made For — Bain Capital Site Progress Tracker
+# Made For — Site Progress Tracker
 
-Client-facing progress tracker for the Bain Capital fitout at Suite 28.01 & 28.02,
-Aurora Place, 88 Phillip Street, Sydney.
+Staff demo: login, a homepage of every project, blank new trackers, and the Bain Capital job as the first record. Everything is saved in this browser (`localStorage`). No Supabase.
 
-Cloned from the published prototype at https://madeforbaincapital.tiiny.site/ so we
-have our own version under source control.
-
-## Run locally
-
-The whole thing is a single self-contained HTML file — no build step, no dependencies,
-no server required. Just open it:
+## Run
 
 ```bash
-open index.html
+cd ~/Projects/made-for-bain-capital-tracker
+python3 -m http.server 8766
 ```
 
-## Tabs
+Open http://127.0.0.1:8766/
 
-- **Made For Team** — team profiles, responsibilities and contact details
-- **Progress** — weekly entries (this week / next week / outstanding items / programme note)
-- **Programme** — schedule against the target FDOB of February 2027
-- **Budget** — base contract plus approved and pending client and design variations
-- **Key Documents** — strategy, concept, DD and documentation registers
-- **Tender** — long list, short list, tender responses and recommendation
+**Login:** `mitch@made-for.com.au` / `123456`
 
-## Known limitations
+## What to click through
 
-Nothing persists. All state lives in a single in-memory `S` object, so every checkbox
-tick, added week, variation, document and tender response is lost on refresh, and
-nothing is shared between viewers. The 27 weeks from 3 Aug 2025 to 1 Feb 2026 are
-hardcoded in the source. It works as a demo or presentation prototype, not yet as a
-tracker anyone can keep updated.
+1. Sign in → homepage lists **Bain Capital, Sydney**
+2. Open it — same six tabs as the prototype, with the seeded team, 27 weeks, programme, and budget
+3. **Projects** in the header back to the list
+4. **New Project** — name, client, address — empty tracker, add buttons on every tab
+5. Refresh: ticks, new weeks, new members, new projects are still there
+6. **Reset demo data** on the homepage footer restores Bain Capital only
 
-The page also still carries two bits injected by the original tiiny.host hosting: a
-Plausible analytics script pointed at `madeforbaincapital.tiiny.site`, and an
-Open Graph preview image pointing at tiiny's logo.
+Two tabs in the same browser stay in sync via `BroadcastChannel`.
 
-## Note on contents
-
-This file contains client-identifying detail, contract values and personal contact
-numbers for the Made For team. Keep this repository private.
+SQL under `supabase/` is leftover for a later hosted version. This demo does not use it.
